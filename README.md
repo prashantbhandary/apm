@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Apm Curry — Indian & Nepali Restaurant, Kawasaki
 
-## Getting Started
+A premium, cinematic single-page website for **Apm Curry**, an Indian & Nepali
+restaurant in Kawasaki, Japan.
 
-First, run the development server:
+**Design direction:** Warm luxury × Japanese minimalism × editorial restaurant
+storytelling. English-first copy with Japanese typographic accents.
+
+## Stack
+
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
+- **Tailwind CSS v4** (CSS-based `@theme` design tokens)
+- **Motion** (Framer Motion) for all cinematic reveals & parallax
+- **lucide-react** for icons (brand glyphs are custom SVGs)
+- Fonts: **Cormorant Garamond** (display serif) + **Inter** (UI/body)
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm start        # serve the production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Editing content
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+All copy, menu items, hours and imagery live in typed data files — edit these,
+not the components:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| File | What it controls |
+| --- | --- |
+| `src/data/restaurant.ts` | Name, contact, address, hours, social, nav links |
+| `src/data/menu.ts` | Signature dishes + all menu categories & prices (¥) |
+| `src/data/story.ts` | About-section storytelling blocks |
+| `src/data/gallery.ts` | Gallery images & captions |
 
-## Learn More
+Design tokens (colors, fonts, easing) live in `src/app/globals.css` under
+`@theme`.
 
-To learn more about Next.js, take a look at the following resources:
+## Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+  app/                 layout (fonts, SEO), page composition, globals.css
+  components/
+    motion/            Reveal, RevealText, Stagger primitives
+    ui/                Button, SectionHeading, Logo, SpiceMeter, ScrollProgress…
+    sections/          Navbar, Hero, About, Marquee, Menu, Gallery, Visit, Footer
+  data/                all editable content
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Notes
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Placeholder photography is served from Unsplash (allow-listed in
+  `next.config.ts`). Swap `src/data/*` image URLs — or drop files in
+  `public/images` — to use real photos.
+- Motion respects `prefers-reduced-motion`.
+- `RevealText` headings reveal on scroll; pass `trigger="mount"` for
+  above-the-fold copy (see `Hero`).
