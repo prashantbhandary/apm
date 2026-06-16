@@ -7,15 +7,8 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { gallery } from "@/data/gallery";
 import { useLang } from "@/i18n/LanguageProvider";
-import { cn } from "@/lib/utils";
 
 const luxe = [0.22, 1, 0.36, 1] as const;
-
-const spanClass: Record<string, string> = {
-  tall: "row-span-2",
-  short: "row-span-1",
-  wide: "row-span-1 sm:col-span-2",
-};
 
 export function Gallery() {
   const { t } = useLang();
@@ -49,10 +42,13 @@ export function Gallery() {
     };
   }, [open, close, next, prev]);
 
+  // Split into two strips that drift in opposite directions.
+  const half = Math.ceil(gallery.length / 2);
+
   return (
     <section
       id="gallery"
-      className="relative scroll-mt-24 bg-paper py-24 sm:py-32 lg:py-40"
+      className="relative scroll-mt-24 overflow-hidden bg-paper py-14 sm:py-20 lg:py-24"
     >
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
         <SectionHeading
@@ -60,41 +56,28 @@ export function Gallery() {
           title={t.gallery.title}
           description={t.gallery.description}
         />
-
-        {/* Masonry grid */}
-        <div className="mt-16 grid auto-rows-[180px] grid-cols-2 gap-4 sm:auto-rows-[220px] lg:grid-cols-4">
-          {gallery.map((img, i) => (
-            <motion.button
-              key={img.src}
-              type="button"
-              onClick={() => setOpen(i)}
-              initial={{ opacity: 0, scale: 0.96 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.8, delay: (i % 4) * 0.08, ease: luxe }}
-              className={cn(
-                "group relative overflow-hidden rounded-2xl",
-                spanClass[img.span],
-              )}
-            >
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                sizes="(max-width: 1024px) 50vw, 25vw"
-                className="object-cover transition-transform duration-[1.1s] ease-[var(--ease-luxe)] group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-espresso/70 via-espresso/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-              <div className="absolute inset-x-0 bottom-0 translate-y-3 p-4 opacity-0 transition-all duration-500 ease-[var(--ease-luxe)] group-hover:translate-y-0 group-hover:opacity-100">
-                <span className="font-display text-lg text-cream">
-                  {img.caption}
-                </span>
-              </div>
-              <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-ink/5" />
-            </motion.button>
-          ))}
-        </div>
       </div>
+
+      {/* — Two sideways-scrolling strips (full-bleed) ------------- */}
+      <div className="mt-14 flex flex-col gap-4 lg:mt-20 lg:gap-5">
+        <GalleryStrip
+          from={0}
+          to={half}
+          duration="70s"
+          onOpen={setOpen}
+        />
+        <GalleryStrip
+          from={half}
+          to={gallery.length}
+          duration="88s"
+          reverse
+          onOpen={setOpen}
+        />
+      </div>
+
+      <p className="mt-10 text-center text-xs uppercase tracking-[0.3em] text-ink-muted">
+        {t.gallery.hint}
+      </p>
 
       {/* — Lightbox ----------------------------------------------- */}
       <AnimatePresence>
@@ -148,7 +131,7 @@ export function Gallery() {
               >
                 <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl">
                   <Image
-                    src={gallery[open].src.replace("w=900", "w=1600")}
+                    src={gallery[open].src}
                     alt={gallery[open].alt}
                     fill
                     sizes="88vw"
@@ -167,5 +150,62 @@ export function Gallery() {
         )}
       </AnimatePresence>
     </section>
+  );
+}
+
+/** One auto-scrolling strip of gallery tiles, pausing on hover. */
+function GalleryStrip({
+  from,
+  to,
+  duration,
+  reverse = false,
+  onOpen,
+}: {
+  from: number;
+  to: number;
+  duration: string;
+  reverse?: boolean;
+  onOpen: (i: number) => void;
+}) {
+  const items = gallery.slice(from, to);
+  // Duplicate the strip so the -50% translate loops seamlessly.
+  const loop = [...items, ...items];
+  return (
+    <div className="edge-fade w-full overflow-hidden">
+      <div
+        className={`marquee-track flex w-max gap-4 px-2 lg:gap-5 ${
+          reverse ? "animate-marquee-reverse" : "animate-marquee"
+        }`}
+        style={{ ["--marquee-duration" as string]: duration }}
+      >
+        {loop.map((img, i) => {
+          const realIndex = from + (i % items.length);
+          const dup = i >= items.length;
+          return (
+            <button
+              key={`${img.src}-${i}`}
+              type="button"
+              aria-hidden={dup}
+              tabIndex={dup ? -1 : 0}
+              onClick={() => onOpen(realIndex)}
+              className="group relative h-56 w-[16rem] shrink-0 overflow-hidden rounded-2xl sm:h-64 sm:w-[20rem]"
+            >
+              <Image
+                src={img.src}
+                alt={img.alt}
+                fill
+                sizes="(max-width: 640px) 16rem, 20rem"
+                className="object-cover transition-transform duration-[1.1s] ease-[var(--ease-luxe)] group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-espresso/75 via-espresso/10 to-transparent" />
+              <span className="absolute inset-x-0 bottom-0 p-4 text-left font-display text-lg text-cream">
+                {img.caption}
+              </span>
+              <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-cream/10" />
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }

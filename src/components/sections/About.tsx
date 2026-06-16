@@ -14,7 +14,7 @@ export function About() {
   return (
     <section id="story" className="relative scroll-mt-24 bg-ivory paper-grain">
       {/* Intro */}
-      <div className="mx-auto max-w-7xl px-6 pt-24 sm:px-8 sm:pt-32 lg:px-12 lg:pt-40">
+      <div className="mx-auto max-w-7xl px-6 pt-14 sm:px-8 sm:pt-20 lg:px-12 lg:pt-24">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <Reveal>
@@ -38,8 +38,8 @@ export function About() {
       </div>
 
       {/* Alternating editorial blocks */}
-      <div className="mx-auto mt-20 max-w-7xl px-6 pb-24 sm:px-8 sm:pb-32 lg:px-12 lg:pb-40">
-        <div className="flex flex-col gap-24 lg:gap-32">
+      <div className="mx-auto mt-12 max-w-7xl px-6 pb-14 sm:px-8 sm:pb-20 lg:px-12 lg:pb-24">
+        <div className="flex flex-col gap-14 lg:gap-20">
           {storyBlocks.map((block, i) => (
             <StorySplit key={block.title} block={block} reversed={i % 2 === 1} />
           ))}

@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { Clock, MapPin, Phone, Mail } from "lucide-react";
+import { Clock, MapPin, Phone, Mail, ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealText } from "@/components/motion/RevealText";
 import { Button } from "@/components/ui/Button";
@@ -16,7 +15,7 @@ export function Visit() {
   return (
     <section
       id="visit"
-      className="paper-grain relative scroll-mt-24 overflow-hidden bg-ivory-deep py-24 sm:py-32 lg:py-40"
+      className="paper-grain relative scroll-mt-24 overflow-hidden bg-ivory-deep py-14 sm:py-20 lg:py-24"
     >
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
@@ -76,27 +75,19 @@ export function Visit() {
             </Reveal>
           </div>
 
-          {/* — Right: location card with map image ---------------- */}
+          {/* — Right: location card with live Google map ---------- */}
           <Reveal y={40}>
             <div className="overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-paper shadow-[0_40px_90px_-50px_rgba(22,17,12,0.5)]">
-              <a
-                href={contact.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative block aspect-[16/11] w-full overflow-hidden"
-              >
-                <Image
-                  src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=1200&q=80"
-                  alt="Kawasaki street at night"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-[1.2s] ease-[var(--ease-luxe)] group-hover:scale-105"
+              <div className="relative aspect-[16/11] w-full overflow-hidden">
+                <iframe
+                  title={`${restaurant.name} — Google Maps`}
+                  src={contact.mapEmbedUrl}
+                  className="absolute inset-0 h-full w-full border-0"
+                  loading="lazy"
+                  allowFullScreen
+                  referrerPolicy="no-referrer-when-downgrade"
                 />
-                <div className="absolute inset-0 bg-espresso/20 transition-colors group-hover:bg-espresso/10" />
-                <span className="absolute left-1/2 top-1/2 grid size-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-saffron text-espresso shadow-lg transition-transform duration-500 group-hover:scale-110">
-                  <MapPin className="size-6" strokeWidth={1.75} />
-                </span>
-              </a>
+              </div>
 
               <div className="space-y-5 p-6 sm:p-8">
                 <div className="flex items-start gap-3">
@@ -106,14 +97,21 @@ export function Visit() {
                   />
                   <div>
                     <p className="text-sm font-medium text-ink">
-                      {contact.address.line1}, {contact.address.line2}
+                      {pick(contact.area, contact.areaJp)}
                     </p>
-                    <p className="text-sm text-ink-soft">
-                      {contact.address.region}, {contact.address.country}
+                    <p className="text-sm text-ink-soft">{contact.region}</p>
+                    <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">
+                      {pick(contact.directions, contact.directionsJp)}
                     </p>
-                    <p className="mt-1 text-xs text-ink-muted">
-                      {contact.addressJp}
-                    </p>
+                    <a
+                      href={contact.mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2.5 inline-flex items-center gap-1 text-xs font-medium text-clay transition-colors hover:text-ink"
+                    >
+                      {t.visit.directions}
+                      <ArrowUpRight className="size-3.5" strokeWidth={2} />
+                    </a>
                   </div>
                 </div>
 

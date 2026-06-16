@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+# source photo originals (optimized copies live in /public/images)
+/photos
+
 # debug
 npm-debug.log*
 yarn-debug.log*

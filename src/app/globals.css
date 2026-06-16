@@ -149,6 +149,46 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Horizontal auto-scroll marquee (reviews) */
+  .animate-marquee {
+    animation: marquee-x var(--marquee-duration, 60s) linear infinite;
+  }
+  .animate-marquee-reverse {
+    animation: marquee-x var(--marquee-duration, 60s) linear infinite reverse;
+  }
+  /* Pause when hovered or focused within — keeps it readable */
+  .marquee-track:hover,
+  .marquee-track:focus-within {
+    animation-play-state: paused;
+  }
+
+  /* Soft fade on the left/right edges of a horizontal scroller */
+  .edge-fade {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 6%,
+      #000 94%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 6%,
+      #000 94%,
+      transparent
+    );
+  }
+}
+
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* Respect reduced motion globally as a safety net */

@@ -7,7 +7,7 @@ import { navLinks, restaurant } from "@/data/restaurant";
 import { useLang } from "@/i18n/LanguageProvider";
 
 export function Footer() {
-  const { t } = useLang();
+  const { t, pick } = useLang();
   const year = new Date().getFullYear();
   const { social, contact } = restaurant;
 
@@ -66,12 +66,16 @@ export function Footer() {
           <div className="lg:col-span-4">
             <h3 className="eyebrow text-saffron-light">{t.footer.findUs}</h3>
             <address className="mt-5 flex flex-col gap-2 text-sm not-italic text-cream-muted">
-              <span>
-                {contact.address.line1}, {contact.address.line2}
-              </span>
-              <span>
-                {contact.address.region}, {contact.address.country}
-              </span>
+              <span>{pick(contact.area, contact.areaJp)}</span>
+              <span>{contact.region}</span>
+              <a
+                href={contact.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-cream"
+              >
+                {t.visit.directions}
+              </a>
               <a
                 href={`tel:${contact.phone}`}
                 className="mt-2 transition-colors hover:text-cream"

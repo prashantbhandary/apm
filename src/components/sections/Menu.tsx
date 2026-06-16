@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { Leaf } from "lucide-react";
 import { Reveal } from "@/components/motion/Reveal";
@@ -23,7 +24,7 @@ export function Menu() {
   return (
     <section
       id="menu"
-      className="paper-grain relative scroll-mt-24 overflow-hidden bg-espresso py-24 text-cream sm:py-32 lg:py-40"
+      className="paper-grain relative scroll-mt-24 overflow-hidden bg-espresso py-14 text-cream sm:py-20 lg:py-24"
     >
       {/* ambient glow */}
       <div className="pointer-events-none absolute -top-40 left-1/2 size-[40rem] -translate-x-1/2 rounded-full bg-saffron/10 blur-[120px]" />
@@ -37,7 +38,7 @@ export function Menu() {
         />
 
         {/* — Signature dishes -------------------------------------- */}
-        <div className="mt-16 grid gap-5 lg:mt-20 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 lg:mt-12 lg:grid-cols-3">
           {signatures.map((dish, i) => (
             <Reveal key={dish.name} delay={i * 0.1} y={36}>
               <SignatureCard dish={dish} index={i} pick={pick} />
@@ -46,7 +47,7 @@ export function Menu() {
         </div>
 
         {/* — Category tabs ----------------------------------------- */}
-        <div className="mt-24 lg:mt-32">
+        <div className="mt-14 lg:mt-16">
           <Reveal>
             <div className="no-scrollbar -mx-6 flex gap-2 overflow-x-auto px-6 sm:justify-center">
               {menu.map((c) => {
@@ -145,29 +146,43 @@ function SignatureCard({
   pick: Pick;
 }) {
   return (
-    <div className="group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-cream/10 bg-cream/[0.03] p-7 transition-colors duration-500 hover:border-saffron/40 hover:bg-cream/[0.06]">
-      <span className="font-display text-5xl font-light text-cream/15 transition-colors duration-500 group-hover:text-saffron/40">
-        0{index + 1}
-      </span>
-      <div className="mt-4 flex items-center gap-2">
-        {dish.tags?.[0] && (
-          <span className="rounded-full border border-saffron/30 px-2.5 py-0.5 text-[0.62rem] uppercase tracking-[0.15em] text-saffron-light">
-            {pick(dish.tags[0], dish.tagsJp?.[0])}
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-cream/10 bg-cream/[0.03] transition-colors duration-500 hover:border-saffron/40 hover:bg-cream/[0.06]">
+      {dish.image && (
+        <div className="relative aspect-[4/3] w-full overflow-hidden">
+          <Image
+            src={dish.image}
+            alt={dish.name}
+            fill
+            sizes="(max-width: 1024px) 100vw, 33vw"
+            className="object-cover transition-transform duration-[1.1s] ease-[var(--ease-luxe)] group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-espresso/60 to-transparent" />
+          <span className="absolute left-4 top-4 font-display text-4xl font-light text-cream/70">
+            0{index + 1}
           </span>
-        )}
-        {dish.veg && <Leaf className="size-3.5 text-emerald-400/80" />}
-      </div>
-      <h3 className="mt-3 font-display text-2xl text-cream">
-        {pick(dish.name, dish.nameJp)}
-      </h3>
-      <p className="mt-3 flex-1 text-sm leading-relaxed text-cream-muted">
-        {pick(dish.description, dish.descriptionJp)}
-      </p>
-      <div className="mt-6 flex items-center justify-between border-t border-cream/10 pt-4">
-        <span className="font-display text-xl text-saffron-light">
-          {yen(dish.price)}
-        </span>
-        {dish.spice ? <SpiceMeter level={dish.spice} /> : null}
+        </div>
+      )}
+      <div className="flex flex-1 flex-col p-6">
+        <div className="flex items-center gap-2">
+          {dish.tags?.[0] && (
+            <span className="rounded-full border border-saffron/30 px-2.5 py-0.5 text-[0.62rem] uppercase tracking-[0.15em] text-saffron-light">
+              {pick(dish.tags[0], dish.tagsJp?.[0])}
+            </span>
+          )}
+          {dish.veg && <Leaf className="size-3.5 text-emerald-400/80" />}
+        </div>
+        <h3 className="mt-2 font-display text-2xl text-cream">
+          {pick(dish.name, dish.nameJp)}
+        </h3>
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-cream-muted">
+          {pick(dish.description, dish.descriptionJp)}
+        </p>
+        <div className="mt-5 flex items-center justify-between border-t border-cream/10 pt-4">
+          <span className="font-display text-xl text-saffron-light">
+            {yen(dish.price)}
+          </span>
+          {dish.spice ? <SpiceMeter level={dish.spice} /> : null}
+        </div>
       </div>
     </div>
   );
@@ -175,7 +190,19 @@ function SignatureCard({
 
 function MenuRow({ dish, pick }: { dish: Dish; pick: Pick }) {
   return (
-    <div className="group flex items-baseline gap-4 border-b border-cream/10 py-5 transition-colors duration-300 hover:border-saffron/30">
+    <div className="group flex items-center gap-4 border-b border-cream/10 py-4 transition-colors duration-300 hover:border-saffron/30">
+      {dish.image && (
+        <div className="relative size-16 shrink-0 overflow-hidden rounded-xl">
+          <Image
+            src={dish.image}
+            alt={dish.name}
+            fill
+            sizes="64px"
+            className="object-cover transition-transform duration-500 ease-[var(--ease-luxe)] group-hover:scale-110"
+          />
+        </div>
+      )}
+
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <h4 className="font-display text-xl text-cream transition-colors duration-300 group-hover:text-saffron-light">
@@ -184,7 +211,7 @@ function MenuRow({ dish, pick }: { dish: Dish; pick: Pick }) {
           {dish.veg && <Leaf className="size-3.5 text-emerald-400/80" />}
           {dish.spice ? <SpiceMeter level={dish.spice} /> : null}
         </div>
-        <p className="mt-1.5 text-sm leading-relaxed text-cream-muted">
+        <p className="mt-1 text-sm leading-relaxed text-cream-muted">
           {pick(dish.description, dish.descriptionJp)}
         </p>
       </div>

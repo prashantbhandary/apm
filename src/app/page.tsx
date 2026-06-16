@@ -7,6 +7,7 @@ import { Menu } from "@/components/sections/Menu";
 import { Delivery } from "@/components/sections/Delivery";
 import { Staff } from "@/components/sections/Staff";
 import { Gallery } from "@/components/sections/Gallery";
+import { Reviews } from "@/components/sections/Reviews";
 import { Visit } from "@/components/sections/Visit";
 import { Footer } from "@/components/sections/Footer";
 
@@ -23,6 +24,7 @@ export default function Home() {
         <Delivery />
         <Staff />
         <Gallery />
+        <Reviews />
         <Visit />
       </main>
       <Footer />

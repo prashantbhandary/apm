@@ -17,7 +17,7 @@ export function Delivery() {
   return (
     <section
       id="delivery"
-      className="relative scroll-mt-24 overflow-hidden bg-paper py-24 sm:py-32 lg:py-40"
+      className="relative scroll-mt-24 overflow-hidden bg-paper py-14 sm:py-20 lg:py-24"
     >
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
@@ -41,8 +41,8 @@ export function Delivery() {
               <div className="mt-10 hidden overflow-hidden rounded-[var(--radius-card)] lg:block">
                 <div className="relative aspect-[16/10] w-full">
                   <Image
-                    src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=900&q=80"
-                    alt="Boxed curry ready for delivery"
+                    src="/images/double-curry-set.jpg"
+                    alt="Double curry set with naan, ready to order"
                     fill
                     sizes="40vw"
                     className="object-cover"

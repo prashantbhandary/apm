@@ -16,7 +16,7 @@ export function Staff() {
   return (
     <section
       id="staff"
-      className="relative scroll-mt-24 bg-ivory paper-grain py-24 sm:py-32 lg:py-40"
+      className="relative scroll-mt-24 bg-ivory paper-grain py-14 sm:py-20 lg:py-24"
     >
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
         <SectionHeading

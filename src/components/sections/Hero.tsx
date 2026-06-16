@@ -34,8 +34,8 @@ export function Hero() {
       {/* — Background image + cinematic gradients ------------------ */}
       <motion.div style={{ y: bgY }} className="absolute inset-0 -z-10 scale-110">
         <Image
-          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1920&q=80"
-          alt="Warm candle-lit restaurant interior"
+          src="/images/hero-spread.jpg"
+          alt="A spread of Apm Curry dishes — curries, naan and tandoori"
           fill
           priority
           sizes="100vw"
@@ -161,7 +161,7 @@ function FloatingDish() {
           className="relative h-full w-full overflow-hidden rounded-full border border-cream/15 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.7)]"
         >
           <Image
-            src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=1000&q=80"
+            src="/images/butter-chicken.jpg"
             alt="Signature butter chicken curry"
             fill
             priority
