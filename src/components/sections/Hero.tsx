@@ -33,9 +33,11 @@ export function Hero() {
     >
       {/* — Background image + cinematic gradients ------------------ */}
       <motion.div style={{ y: bgY }} className="absolute inset-0 -z-10 scale-110">
+        {/* Ambiance — warm dining-room interior. Swap for a real photo of
+            the restaurant when available (drop it in /public/images). */}
         <Image
-          src="/images/hero-spread.jpg"
-          alt="A spread of Apm Curry dishes — curries, naan and tandoori"
+          src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2000&q=80"
+          alt="The warm dining room at Apm Curry"
           fill
           priority
           sizes="100vw"
@@ -148,7 +150,8 @@ function FloatingDish() {
       {/* Glow ring */}
       <div className="absolute inset-6 rounded-full bg-saffron/20 blur-3xl" />
 
-      {/* Main dish */}
+      {/* Main image — the dining room. Swap for a real interior photo of
+          the restaurant when available (drop it in /public/images). */}
       <motion.div
         initial={{ opacity: 0, scale: 0.85, rotate: -6 }}
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -161,8 +164,8 @@ function FloatingDish() {
           className="relative h-full w-full overflow-hidden rounded-full border border-cream/15 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.7)]"
         >
           <Image
-            src="/images/butter-chicken.jpg"
-            alt="Signature butter chicken curry"
+            src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1100&q=80"
+            alt="The warm dining room at Apm Curry"
             fill
             priority
             sizes="(max-width: 1024px) 0px, 34rem"

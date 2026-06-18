@@ -54,7 +54,6 @@ export function Gallery() {
         <SectionHeading
           kicker={t.gallery.kicker}
           title={t.gallery.title}
-          description={t.gallery.description}
         />
       </div>
 
