@@ -39,7 +39,7 @@ export function About() {
 
       {/* Alternating editorial blocks */}
       <div className="mx-auto mt-12 max-w-7xl px-6 pb-14 sm:px-8 sm:pb-20 lg:px-12 lg:pb-24">
-        <div className="flex flex-col gap-14 lg:gap-20">
+        <div className="flex flex-col gap-12 lg:gap-16">
           {storyBlocks.map((block, i) => (
             <StorySplit key={block.title} block={block} reversed={i % 2 === 1} />
           ))}
@@ -74,7 +74,7 @@ function StorySplit({
         y={40}
         className={cn("group relative", reversed && "lg:order-2")}
       >
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-card)] shadow-[0_40px_90px_-40px_rgba(22,17,12,0.5)]">
+        <div className="relative aspect-[5/4] overflow-hidden rounded-[var(--radius-card)] shadow-[0_40px_90px_-40px_rgba(22,17,12,0.5)] lg:mx-auto lg:max-w-md">
           <motion.div style={{ y: imgY }} className="absolute inset-0 scale-110">
             <Image
               src={block.image}
