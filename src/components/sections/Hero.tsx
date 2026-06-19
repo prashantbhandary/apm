@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
-import { Star, MapPin, UtensilsCrossed, ArrowDown } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { RevealText } from "@/components/motion/RevealText";
 import { restaurant } from "@/data/restaurant";
@@ -19,55 +19,62 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  // Parallax layers
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
-  const dishY = useTransform(scrollYProgress, [0, 1], ["0%", "-14%"]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+  // One quiet parallax move on the content; everything else stays put.
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "26%"]);
   const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
     <section
       id="top"
       ref={ref}
-      className="paper-grain relative min-h-[100svh] w-full overflow-hidden bg-espresso"
+      className="paper-grain relative flex min-h-[100svh] w-full flex-col overflow-hidden bg-soot"
     >
-      {/* — Background image + cinematic gradients ------------------ */}
-      <motion.div style={{ y: bgY }} className="absolute inset-0 -z-10 scale-110">
-        {/* Ambiance — warm dining-room interior. Swap for a real photo of
-            the restaurant when available (drop it in /public/images). */}
-        <Image
-          src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2000&q=80"
-          alt="The warm dining room at Apm Curry"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-      </motion.div>
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-espresso via-espresso/80 to-espresso/30" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-espresso via-transparent to-espresso/60" />
+      {/* — Tandoor glow: warmth rising from the base of the page ---- */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[70%]"
+        style={{
+          background:
+            "radial-gradient(120% 80% at 50% 118%, var(--color-ember) 0%, color-mix(in oklab, var(--color-marigold) 55%, transparent) 26%, transparent 60%)",
+          opacity: 0.42,
+        }}
+      />
+      {/* faint indigo wash at the top — the block-print / aizome note */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[55%]"
+        style={{
+          background:
+            "linear-gradient(to bottom, color-mix(in oklab, var(--color-indigo) 38%, transparent), transparent)",
+        }}
+      />
 
-      <div className="mx-auto grid min-h-[100svh] max-w-7xl grid-cols-1 items-center gap-12 px-6 pb-20 pt-32 sm:px-8 lg:grid-cols-12 lg:gap-8 lg:px-12 lg:pt-24">
-        {/* — Left: headline + copy + CTAs ------------------------- */}
+      {/* — Main grid ---------------------------------------------- */}
+      <div className="mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-center gap-12 px-6 pb-12 pt-32 sm:px-8 lg:grid-cols-12 lg:gap-10 lg:px-12 lg:pt-28">
+        {/* — Masthead --------------------------------------------- */}
         <motion.div
           style={{ y: contentY, opacity: fade }}
-          className="lg:col-span-6 xl:col-span-6"
+          className="lg:col-span-7"
         >
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
+          {/* Tri-script eyebrow — Devanagari · Japanese/English · year */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: luxe }}
-            className="eyebrow inline-flex items-center gap-3 text-saffron-light"
+            transition={{ duration: 0.9, delay: 0.25, ease: luxe }}
+            className="font-mono text-[0.7rem] uppercase tracking-[0.22em] text-marigold"
           >
-            <span className="h-px w-8 bg-saffron-light/50" />
-            {t.hero.eyebrow} · Est. {restaurant.established}
-          </motion.span>
+            <span className="text-rice/90">भारतीय · नेपाली</span>
+            <span className="mx-2.5 text-brass">—</span>
+            {t.hero.eyebrow}
+            <span className="mx-2.5 text-brass">·</span>
+            Est. {restaurant.established}
+          </motion.div>
 
-          <h1 className="mt-7 text-display text-cream text-[clamp(3rem,8vw,6.5rem)]">
+          <h1 className="mt-6 text-display font-medium text-rice [text-wrap:balance] text-[clamp(3.1rem,8.5vw,7rem)] leading-[0.96]">
             <span className="block">
               <RevealText text={t.hero.line1} delay={0.35} trigger="mount" />
             </span>
-            <span className="block italic text-saffron-light">
+            <span className="block italic text-marigold">
               <RevealText text={t.hero.line2} delay={0.6} trigger="mount" />
             </span>
             <span className="block">
@@ -76,187 +83,126 @@ export function Hero() {
           </h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 1.2, ease: luxe }}
-            className="mt-8 max-w-md text-lg leading-relaxed text-cream-muted text-pretty"
+            className="mt-7 max-w-md text-lg leading-relaxed text-rice-muted text-pretty"
           >
             {t.hero.body}
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 1.4, ease: luxe }}
-            className="mt-10 flex flex-wrap items-center gap-4"
+            className="mt-9 flex flex-wrap items-center gap-4"
           >
             <Button
               href="#menu"
-              className="bg-saffron text-espresso hover:bg-saffron-light border-saffron"
+              className="border-ember bg-ember text-rice hover:bg-ember-bright"
               arrow
             >
               {t.hero.exploreMenu}
             </Button>
-            <Button href={restaurant.orderUrl} variant="light">
+            <Button
+              href={restaurant.orderUrl}
+              className="border-rice/25 text-rice hover:bg-rice hover:text-soot"
+            >
               {t.hero.reserve}
             </Button>
           </motion.div>
         </motion.div>
 
-        {/* — Right: floating dish + stat cards -------------------- */}
+        {/* — Single framed photograph ----------------------------- */}
         <motion.div
-          style={{ y: dishY }}
-          className="relative hidden lg:col-span-6 lg:block xl:col-span-6"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.4, delay: 0.7, ease: luxe }}
+          className="relative hidden lg:col-span-5 lg:block"
         >
-          <FloatingDish />
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="relative ml-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[2px] border border-brass/45 shadow-[0_50px_120px_-40px_rgba(0,0,0,0.85)]"
+          >
+            {/* Warm dining-room interior. Swap for a real photo of the
+                room when available (drop it in /public/images). */}
+            <Image
+              src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80"
+              alt="The warm, candle-lit dining room at Apm Curry"
+              fill
+              priority
+              sizes="(max-width: 1024px) 0px, 28rem"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-soot/70 via-transparent to-soot/10" />
+            <div className="absolute inset-0 ring-1 ring-inset ring-rice/10" />
+            {/* mono tag — data, not decoration */}
+            <span className="absolute bottom-4 left-4 font-mono text-[0.62rem] uppercase tracking-[0.2em] text-rice/85">
+              <span className="text-marigold">●</span> Dine-in · Kawasaki
+            </span>
+          </motion.div>
         </motion.div>
       </div>
 
-      {/* — Scroll cue --------------------------------------------- */}
+      {/* — Metadata strip: the stat cards, retyped as a rule ------ */}
       <motion.div
-        style={{ opacity: fade }}
-        className="absolute inset-x-0 bottom-7 flex justify-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.6, ease: luxe }}
+        className="relative z-10 border-t border-brass/20"
       >
-        <motion.a
-          href="#story"
-          aria-label="Scroll to story"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8, duration: 1 }}
-          className="flex flex-col items-center gap-2 text-cream/60 transition-colors hover:text-cream"
-        >
-          <span className="text-[0.6rem] uppercase tracking-[0.3em]">
-            {t.hero.scroll}
-          </span>
-          <motion.span
-            animate={{ y: [0, 7, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        <dl className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-3 px-6 py-5 font-mono text-[0.68rem] uppercase tracking-[0.18em] text-rice-muted sm:px-8 lg:px-12">
+          <MetaItem label="Est." value={restaurant.established} />
+          <Divider />
+          <MetaItem label="Cuisine" value={t.hero.cuisine} />
+          <Divider />
+          <MetaItem label="Where" value={`${t.hero.city} · 神奈川`} />
+          <Divider />
+          <MetaItem
+            label="Rated"
+            value={`★ ${restaurant.rating.toFixed(1)} / ${restaurant.reviewCount}`}
+            accent
+          />
+
+          {/* scroll cue, tucked to the end of the rule */}
+          <motion.a
+            href="#story"
+            style={{ opacity: fade }}
+            aria-label="Scroll to story"
+            className="ml-auto hidden items-center gap-2 text-rice/55 transition-colors hover:text-rice sm:flex"
           >
-            <ArrowDown className="size-4" strokeWidth={1.5} />
-          </motion.span>
-        </motion.a>
+            {t.hero.scroll}
+            <motion.span
+              animate={{ y: [0, 5, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <ArrowDown className="size-3.5" strokeWidth={1.5} />
+            </motion.span>
+          </motion.a>
+        </dl>
       </motion.div>
     </section>
   );
 }
 
-/* ------------------------------------------------------------------ *
- *  Floating dish composition with orbiting stat cards
- * ------------------------------------------------------------------ */
-function FloatingDish() {
-  const { t } = useLang();
+function MetaItem({
+  label,
+  value,
+  accent,
+}: {
+  label: string;
+  value: string;
+  accent?: boolean;
+}) {
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[34rem]">
-      {/* Glow ring */}
-      <div className="absolute inset-6 rounded-full bg-saffron/20 blur-3xl" />
-
-      {/* Main image — the dining room. Swap for a real interior photo of
-          the restaurant when available (drop it in /public/images). */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.85, rotate: -6 }}
-        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-        transition={{ duration: 1.6, delay: 0.6, ease: luxe }}
-        className="relative h-full w-full"
-      >
-        <motion.div
-          animate={{ y: [0, -14, 0] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className="relative h-full w-full overflow-hidden rounded-full border border-cream/15 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.7)]"
-        >
-          <Image
-            src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1100&q=80"
-            alt="The warm dining room at Apm Curry"
-            fill
-            priority
-            sizes="(max-width: 1024px) 0px, 34rem"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-cream/10" />
-        </motion.div>
-      </motion.div>
-
-      {/* Stat card — rating */}
-      <FloatCard
-        delay={1.1}
-        float={9}
-        className="-left-6 top-10 xl:-left-12"
-      >
-        <span className="grid size-10 place-items-center rounded-full bg-saffron/15 text-saffron-light">
-          <Star className="size-5" fill="currentColor" strokeWidth={0} />
-        </span>
-        <div className="leading-tight">
-          <p className="font-display text-2xl font-semibold text-ink">
-            {restaurant.rating.toFixed(1)}
-          </p>
-          <p className="text-[0.7rem] text-ink-muted">
-            {restaurant.reviewCount.toLocaleString()} {t.hero.ratingLabel}
-          </p>
-        </div>
-      </FloatCard>
-
-      {/* Stat card — cuisine */}
-      <FloatCard
-        delay={1.35}
-        float={12}
-        className="-right-4 top-1/3 xl:-right-10"
-      >
-        <span className="grid size-10 place-items-center rounded-full bg-clay/15 text-clay">
-          <UtensilsCrossed className="size-5" strokeWidth={1.5} />
-        </span>
-        <div className="leading-tight">
-          <p className="text-sm font-semibold text-ink">{t.hero.cuisine}</p>
-          <p className="text-[0.7rem] text-ink-muted">{t.hero.cuisineSub}</p>
-        </div>
-      </FloatCard>
-
-      {/* Stat card — location */}
-      <FloatCard
-        delay={1.55}
-        float={10}
-        className="bottom-8 left-1/4"
-      >
-        <span className="grid size-10 place-items-center rounded-full bg-espresso/10 text-espresso">
-          <MapPin className="size-5" strokeWidth={1.5} />
-        </span>
-        <div className="leading-tight">
-          <p className="text-sm font-semibold text-ink">{t.hero.city}</p>
-          <p className="text-[0.7rem] text-ink-muted">{t.hero.region}</p>
-        </div>
-      </FloatCard>
+    <div className="flex items-baseline gap-2">
+      <dt className="text-brass">{label}</dt>
+      <dd className={accent ? "text-marigold" : "text-rice"}>{value}</dd>
     </div>
   );
 }
 
-function FloatCard({
-  children,
-  className,
-  delay,
-  float,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay: number;
-  float: number;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 1, delay, ease: luxe }}
-      className={`absolute z-10 ${className ?? ""}`}
-    >
-      <motion.div
-        animate={{ y: [0, -float, 0] }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: delay,
-        }}
-        className="flex items-center gap-3 rounded-2xl border border-white/60 bg-paper/90 px-4 py-3 shadow-[0_20px_50px_-20px_rgba(22,17,12,0.45)] backdrop-blur-md"
-      >
-        {children}
-      </motion.div>
-    </motion.div>
-  );
+function Divider() {
+  return <span aria-hidden className="hidden h-3 w-px bg-brass/25 sm:block" />;
 }
