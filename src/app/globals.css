@@ -7,35 +7,54 @@
 
 @theme {
   /* — Palette ------------------------------------------------------- */
-  /* Ivory / warm paper backgrounds */
-  --color-ivory: #f8f3ea;
-  --color-ivory-deep: #f1e9da;
-  --color-paper: #fdfbf6;
+  /* Warm "rice paper" backgrounds — warmer & more pigmented than cream,
+     so the light sections no longer read as the default ivory. */
+  --color-ivory: #f2ead9;
+  --color-ivory-deep: #ece1cc;
+  --color-paper: #f7f0e1;
 
-  /* Espresso / charcoal — dark premium sections */
-  --color-espresso: #16110c;
-  --color-espresso-soft: #1f1812;
-  --color-charcoal: #2a2118;
+  /* Dark grounds — soot + an indigo-tinted band/card tone */
+  --color-espresso: var(--color-soot);
+  --color-espresso-soft: var(--color-soot-2);
+  --color-charcoal: #1f2640;
 
   /* Ink — primary text on light */
   --color-ink: #1c160f;
-  --color-ink-soft: #4a4036;
+  --color-ink-soft: #463c30;
   --color-ink-muted: #8a7d6c;
 
-  /* Warm metallic accents */
-  --color-saffron: #c8862c;
-  --color-saffron-light: #e0a84b;
-  --color-gold: #b88a3e;
-  --color-terracotta: #a8492a;
-  --color-clay: #8c4a2f;
+  /* Accents — these names now resolve to the Ember & Indigo palette.
+     clay → indigo is the key move: indigo carries the light sections,
+     ember/marigold carry the dark ones. */
+  --color-saffron: var(--color-marigold);
+  --color-saffron-light: #efb95e;
+  --color-gold: var(--color-brass);
+  --color-terracotta: var(--color-ember);
+  --color-clay: var(--color-indigo);
 
-  /* Cream text on dark */
-  --color-cream: #f4ead6;
-  --color-cream-muted: #b8a888;
+  /* Text on dark — warm rice */
+  --color-cream: var(--color-rice);
+  --color-cream-muted: var(--color-rice-muted);
+
+  /* — Ember & Indigo ------------------------------------------------ */
+  /* New direction: a Himalayan-miniature palette (Rajput/paubha +
+     tandoor glow + aizome/block-print indigo). Used by the redesigned
+     Hero; rolling out section by section. */
+  --color-soot: #17110b;
+  --color-soot-2: #1f1810;
+  --color-ember: #c8431f;
+  --color-ember-bright: #e0561f;
+  --color-marigold: #e6a23c;
+  --color-brass: #b98a44;
+  --color-indigo: #27315e;
+  --color-indigo-deep: #1b2447;
+  --color-rice: #f1e7d3;
+  --color-rice-muted: #b3a488;
 
   /* — Typography ---------------------------------------------------- */
-  --font-display: var(--font-cormorant), Georgia, serif;
-  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-fraunces), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
+  --font-mono: var(--font-dmmono), ui-monospace, "SFMono-Regular", monospace;
 
   /* — Motion -------------------------------------------------------- */
   --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);

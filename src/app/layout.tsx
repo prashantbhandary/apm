@@ -1,19 +1,30 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Fraunces, Hanken_Grotesk, DM_Mono } from "next/font/google";
 import "./globals.css";
 import { restaurant } from "@/data/restaurant";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+// Display — warm, characterful old-style serif with a real italic.
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  axes: ["opsz"],
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+// Body — humanist grotesk, warmer and less default than Inter.
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
+  display: "swap",
+});
+
+// Data — mono for prices, hours, labels; the "precision" counterpoint.
+const dmMono = DM_Mono({
+  variable: "--font-dmmono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -50,7 +61,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${inter.variable} h-full`}
+      className={`${fraunces.variable} ${hanken.variable} ${dmMono.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <LanguageProvider>{children}</LanguageProvider>
